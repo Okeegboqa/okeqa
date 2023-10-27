@@ -18,7 +18,7 @@ function simulateAsyncOperation(callback) {
   simulateAsyncOperation(onComplete);
   console.log("End of the program");
 
-/* The expected log would look like thios below:
+/* The expected log would look like this below:
 
 *** /opt/homebrew/bin/node ./callback.js
 Start of the program
