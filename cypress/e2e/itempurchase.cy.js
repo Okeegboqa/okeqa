@@ -1,39 +1,41 @@
 /// <reference types = "cypress" />
 import { LoginPage } from "../pages/webuiLoginPage";
-import { LogoutAction } from "../pages/webuiLogout";
 import { AddItemToCart } from "../pages/itemPage";
 
 
 describe('Login Validation', () => {
+    // Declaring variables
     const login = new LoginPage();
-    const logout = new LogoutAction();
     const item = new AddItemToCart();
+    const baseUrl = Cypress.config().baseUrl;
 
     beforeEach('Verify Successful Login', () => {
         // Visit URL
-        cy.visit('https://www.saucedemo.com/');
+        cy.visit(baseUrl);
 
-        // Username and Login
+        // Enter valid username and valid password
         login.enterUsername();
         login.enterPassword();
+
+        // Click on the login btn
         login.clickLogin();
 
         // Check page URL is correct after login
-        cy.url().should('eq', 'https://www.saucedemo.com/inventory.html');
+        cy.url().should('eq', baseUrl + 'inventory.html');
     });
 
     it('Verify user can add item to cart and purchase item', () => {
-        // Add Item to Cart
+        // Add an item to Cart
         item.selectItem();
 
         // Open Cart
         item.openCartToCheck();
 
-        // Check item in cart
+        // Check if item is in cart
         item.checkItemInCart();
 
-        // Check item price
-        //item.checkItemPriceInCart();
+        // Check item price is correct
+        item.checkItemPriceInCart();
         
         // Checck that checkout button is enabled
         item.isheckoutEnabled();

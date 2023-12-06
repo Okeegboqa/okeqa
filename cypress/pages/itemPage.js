@@ -23,8 +23,8 @@ export class AddItemToCart
     checkItemPriceInCart()
     {
         // Check item in cart
-        cy.get('inventory_item_price')
-          .should('have.text', '');
+        cy.get('.inventory_item_price')
+          .should('have.text', '$29.99');
     }
 
     clickCheckout()
