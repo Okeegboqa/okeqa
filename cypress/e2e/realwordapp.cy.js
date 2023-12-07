@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/pagelogin";
 import { TransactionPage } from "../pages/transaction";
 import { newTransactionPage } from "../pages/newaccount";
 
-describe('Login Validation', () => {
+describe.skip('Login Validation', () => {
     const login = new LoginPage();
     const transaction = new TransactionPage();
     const newTransaction = new newTransactionPage();

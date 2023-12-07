@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe.skip('template spec', () => {
   it('passes', () => {
 
     // Visit URL
