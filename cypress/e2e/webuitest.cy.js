@@ -9,9 +9,9 @@ const baseUrl = Cypress.config().baseUrl;
 const login = new LoginPage();
 const logout = new LogoutAction();
 
-describe('Login with valid user and logout test', () => {
+describe('Valid user login test', () => {
 
-    beforeEach('Verify Successful Login with valid user', () => {
+    it('Verify Successful Login with valid user', () => {
         // Visit application URL
         cy.visit(baseUrl);
 
@@ -29,9 +29,29 @@ describe('Login with valid user and logout test', () => {
         logout.clickHandBurger();
         logout.locateLogoutButton();
     });
+});
 
-    it('Verify that user logout after login and redirect to login page', () => {
-        // Perform logout
+describe('Valid user logout test', () => {
+
+    it('Verify that valid user can logout successfully', () => {
+        // Visit application URL
+        cy.visit(baseUrl);
+
+        // Enter valid username and password 
+        login.enterUsername();
+        login.enterPassword();
+
+        // Click on Login Btn
+        login.clickLogin();
+
+        // Check page URL is correct after login
+        cy.url().should('eq', baseUrl + 'inventory.html');
+
+        // Check that logout element is available in the sidebar
+        logout.clickHandBurger();
+        logout.locateLogoutButton();
+
+        // Click logout btn
         logout.clickLogoutButton();
 
         // Check that page URL is changed to login page
