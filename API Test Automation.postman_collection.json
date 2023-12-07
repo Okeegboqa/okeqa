@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "5abb8ecb-99f2-4572-92e6-84094d4de137",
+		"name": "API Test Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14336316"
+	},
+	"item": [
+		{
+			"name": "UserInformation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parsing the response body as JSON",
+							"const responseData = pm.response.json();",
+							"",
+							"// Checking response code",
+							"pm.test(\"Verify that the status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"// Checking response message",
+							"pm.test(\"Verify that the response message is 'OK'\", function () {",
+							"    pm.expect(pm.response.to.have.status(\"OK\"));",
+							"});",
+							"",
+							"// Checking all required fields in the response body",
+							"pm.test(\"Verify that the response has the required fields\", function () {",
+							"    //const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.args).to.exist;",
+							"    pm.expect(responseData.data).to.exist;",
+							"    pm.expect(responseData.files).to.exist;",
+							"    pm.expect(responseData.form).to.exist;",
+							"    pm.expect(responseData.headers).to.exist;",
+							"    pm.expect(responseData.json).to.exist;",
+							"    pm.expect(responseData.url).to.exist;",
+							"});",
+							"",
+							"//  Checking that the firstname and lastname are present in the response body",
+							"pm.test(\"Response body should contain 'firstname' and 'lastname'\", function () {",
+							"    pm.expect(responseData).to.have.property('data');",
+							"    pm.expect(responseData.data).to.have.property('firstname');",
+							"    pm.expect(responseData.data).to.have.property('lastname');",
+							"});",
+							"",
+							"// Checking the values of \"firstname\" and \"lastname\"",
+							"pm.test(\"Verify that the value of the firstname is correct\", function () {",
+							"    pm.expect(responseData.data.firstname).to.equal(\"Okechukwu\");",
+							"});",
+							"",
+							"pm.test(\"Verify that the value of the lastname is correct\", function () {",
+							"    pm.expect(responseData.data.lastname).to.equal(\"Egbo\");",
+							"});",
+							"",
+							"// Set global variable",
+							"pm.globals.set(\"firstname\", responseData.data.firstname);",
+							"pm.globals.set(\"lastname\", responseData.data.lastname);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\": \"Okechukwu\",\n    \"lastname\": \"Egbo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseURL}}post"
+			},
+			"response": []
+		},
+		{
+			"name": "userInformationRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parsing the response body as JSON",
+							"const responseData = pm.response.json();",
+							"",
+							"// Checking the response code to be 200",
+							"pm.test(\"Verify that the response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"// Checking the response message to be 'OK'",
+							"pm.test(\"Verify that the response message should is 'OK'\", function () {",
+							"    pm.expect(pm.response.to.have.status(\"OK\"));",
+							"});",
+							"",
+							"// Checking the response body structure and values",
+							"pm.test(\"Verify that the response body structure is valid\", function () {",
+							"    pm.expect(responseData).has.property('args');",
+							"    pm.expect(responseData).has.property('headers');",
+							"    pm.expect(responseData).has.property('url');",
+							"});",
+							"",
+							"// Checking that the \"firstname\" and \"lastname\" keys exist in the response body",
+							"pm.test(\"Verify that the response body contains 'firstname' and 'lastname'\", function () {",
+							"    pm.expect(responseData).to.have.property('args');",
+							"    pm.expect(responseData.args).to.have.property('firstname');",
+							"    pm.expect(responseData.args).to.have.property('lastname');",
+							"});",
+							"",
+							"// Checking the values of \"firstname\" and \"lastname\"",
+							"pm.test(\"Verify that the value of firstname should be correct\", function () {",
+							"    pm.expect(responseData.args.firstname).to.equal(\"Okechukwu\");",
+							"});",
+							"",
+							"pm.test(\"Verify that the value of lastname should be correct\", function () {",
+							"    pm.expect(responseData.args.lastname).to.equal(\"Egbo\");",
+							"});",
+							"",
+							"// Checking that url property is not empty",
+							"pm.test(\"Verify that the URL property is not empty\", function () {",
+							"    pm.expect(responseData.url).to.not.be.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}get?firstname={{firstname}}&lastname={{lastname}}",
+					"host": [
+						"{{baseURL}}get"
+					],
+					"query": [
+						{
+							"key": "firstname",
+							"value": "{{firstname}}"
+						},
+						{
+							"key": "lastname",
+							"value": "{{lastname}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basicAuth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Check if the Authorization header exists",
+							"pm.test(\"Verify that the authorization header should exist\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});",
+							"",
+							"// Extract the Authorization header value",
+							"const authHeader = pm.request.headers.get(\"Authorization\");",
+							"",
+							"// Check if the Authorization header has the expected value",
+							"pm.test(\"Verify that the authorization header have the correct value\", function () {",
+							"    pm.expect(authHeader).to.equal(\"Basic cG9zdG1hbjpwYXNzd29yZA==\");",
+							"});",
+							"",
+							"//Check if response code is 200",
+							"pm.test(\"Verify that the status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Parse the response body as JSON",
+							"const responseBodyData = pm.response.json();",
+							"",
+							"// Check if the \"authenticated\" key exists in the response body",
+							"pm.test(\"Verify that the response body contains 'authenticated': true\", function () {",
+							"    pm.expect(responseBodyData.authenticated).to.equal(true);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{userName}}",
+						"password": "{{password}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{baseURL}}basic-auth"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://postman-echo.com/",
+			"type": "string"
+		},
+		{
+			"key": "userName",
+			"value": "postman",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "password",
+			"type": "string"
+		}
+	]
+}
