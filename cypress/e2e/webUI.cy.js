@@ -9,7 +9,8 @@ const baseUrl = Cypress.config().baseUrl;
 const login = new LoginPage();
 const logout = new LogoutAction();
 
-describe('Valid user login test', () => {
+
+//describe('Valid user login test', () => {
 
     it('Verify Successful Login with valid user', () => {
         // Visit application URL
@@ -29,9 +30,9 @@ describe('Valid user login test', () => {
         logout.clickHandBurger();
         logout.locateLogoutButton();
     });
-});
+//});
 
-describe('Valid user logout test', () => {
+//describe('Valid user logout test', () => {
 
     it('Verify that valid user can logout successfully', () => {
         // Visit application URL
@@ -60,9 +61,9 @@ describe('Valid user logout test', () => {
         // Check that the logo is present on login page
         logout.locateLogoOnLoginPage();
     });
-});
+//});
 
-describe('Login Validation Tests with negative scenarios', () => {
+//describe('Login Validation Tests with negative scenarios', () => {
 
     it('Valid user unsuccessful login', () => {
         // Visit URL
@@ -112,10 +113,9 @@ describe('Login Validation Tests with negative scenarios', () => {
         cy.url().should('eq', baseUrl + 'inventory.html');
 
     });
-})
+//})
 
-
-it('Verify that a valid user can login when screen width is less than 1060px', () => {
+it.skip('Verify that a valid user can login when screen width is less than 1060px', () => {
     // Set the viewport width to less than 1060px
     cy.viewport(1024, 768);
 

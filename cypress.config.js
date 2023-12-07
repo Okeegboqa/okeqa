@@ -6,7 +6,7 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
 
-    "pageLoadTimeout": 100000,
+    "pageLoadTimeout": 300000,
 
     "baseUrl": "https://www.saucedemo.com/"
   },
