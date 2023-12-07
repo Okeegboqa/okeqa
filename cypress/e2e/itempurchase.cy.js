@@ -24,7 +24,7 @@ describe('Login Validation', () => {
         cy.url().should('eq', baseUrl + 'inventory.html');
     });
 
-    it('Verify user can add item to cart and purchase item', () => {
+    it('Verify user can add item to cart and purchase item and purchase the item', () => {
         // Add an item to Cart
         item.selectItem();
 
@@ -36,7 +36,7 @@ describe('Login Validation', () => {
 
         // Check item price is correct
         item.checkItemPriceInCart();
-        
+
         // Checck that checkout button is enabled
         item.isheckoutEnabled();
 
@@ -65,5 +65,5 @@ describe('Login Validation', () => {
         item.goToHomePage();
 
     });
-    
+
 });

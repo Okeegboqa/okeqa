@@ -12,10 +12,10 @@ const logout = new LogoutAction();
 describe('Login with valid user and logout test', () => {
 
     beforeEach('Verify Successful Login with valid user', () => {
-        // Visit URL
+        // Visit application URL
         cy.visit(baseUrl);
 
-        // Enter Username and Password 
+        // Enter valid username and password 
         login.enterUsername();
         login.enterPassword();
 
@@ -51,13 +51,13 @@ describe('Login Validation Tests with negative scenarios', () => {
         // Enter valid username and invalid password 
         login.enterUsername();
         login.enterIncorrectPassword();
-        
+
         // Click on Login Btn
         login.clickLogin();
 
         // Check page URL is correct after login
         cy.contains('Epic sadface: Username and password do not match any user in this service')
-          .should('be.visible');
+            .should('be.visible');
     });
 
     it('Verify that lockout out user cannot login with valid credentials', () => {
@@ -73,11 +73,11 @@ describe('Login Validation Tests with negative scenarios', () => {
 
         // Check page URL is correct after login
         cy.contains('Epic sadface: Sorry, this user has been locked out.')
-          .should('be.visible');
+            .should('be.visible');
     });
 
     it('Verify that a valid user user can log-in with the valid credentials, but with long timeout', () => {
-        
+
         // Visit URL
         cy.visit(baseUrl);
 
@@ -89,7 +89,7 @@ describe('Login Validation Tests with negative scenarios', () => {
         login.clickLogin({ timeout: 5000 });
 
         // Check page URL is correct after login
-        cy.url().should('eq', baseUrl+'inventory.html');
+        cy.url().should('eq', baseUrl + 'inventory.html');
 
     });
 })
@@ -110,7 +110,7 @@ it('Verify that a valid user can login when screen width is less than 1060px', (
     login.clickLogin();
 
     // Check page URL is correct after login
-    cy.url().should('eq', baseUrl+'inventory.html');
+    cy.url().should('eq', baseUrl + 'inventory.html');
 
 });
 
