@@ -10,112 +10,103 @@ const login = new LoginPage();
 const logout = new LogoutAction();
 
 
-//describe('Valid user login test', () => {
+it('Verify Successful Login with valid user', () => {
+    // Visit application URL
+    cy.visit(baseUrl);
 
-    it('Verify Successful Login with valid user', () => {
-        // Visit application URL
-        cy.visit(baseUrl);
+    // Enter valid username and password 
+    login.enterUsername();
+    login.enterPassword();
 
-        // Enter valid username and password 
-        login.enterUsername();
-        login.enterPassword();
+    // Click on Login Btn
+    login.clickLogin();
 
-        // Click on Login Btn
-        login.clickLogin();
+    // Check page URL is correct after login
+    cy.url().should('eq', baseUrl + 'inventory.html');
 
-        // Check page URL is correct after login
-        cy.url().should('eq', baseUrl + 'inventory.html');
+    // Check that logout element is available in the sidebar
+    logout.clickHandBurger();
+    logout.locateLogoutButton();
+});
 
-        // Check that logout element is available in the sidebar
-        logout.clickHandBurger();
-        logout.locateLogoutButton();
-    });
-//});
+it('Verify that valid user can logout successfully', () => {
+    // Visit application URL
+    cy.visit(baseUrl);
 
-//describe('Valid user logout test', () => {
+    // Enter valid username and password 
+    login.enterUsername();
+    login.enterPassword();
 
-    it('Verify that valid user can logout successfully', () => {
-        // Visit application URL
-        cy.visit(baseUrl);
+    // Click on Login Btn
+    login.clickLogin();
 
-        // Enter valid username and password 
-        login.enterUsername();
-        login.enterPassword();
+    // Check page URL is correct after login
+    cy.url().should('eq', baseUrl + 'inventory.html');
 
-        // Click on Login Btn
-        login.clickLogin();
+    // Check that logout element is available in the sidebar
+    logout.clickHandBurger();
+    logout.locateLogoutButton();
 
-        // Check page URL is correct after login
-        cy.url().should('eq', baseUrl + 'inventory.html');
+    // Click logout btn
+    logout.clickLogoutButton();
 
-        // Check that logout element is available in the sidebar
-        logout.clickHandBurger();
-        logout.locateLogoutButton();
+    // Check that page URL is changed to login page
+    cy.url().should('eq', baseUrl);
 
-        // Click logout btn
-        logout.clickLogoutButton();
+    // Check that the logo is present on login page
+    logout.locateLogoOnLoginPage();
+});
 
-        // Check that page URL is changed to login page
-        cy.url().should('eq', baseUrl);
+it('Valid user unsuccessful login', () => {
+    // Visit URL
+    cy.visit(baseUrl);
 
-        // Check that the logo is present on login page
-        logout.locateLogoOnLoginPage();
-    });
-//});
+    // Enter valid username and invalid password 
+    login.enterUsername();
+    login.enterIncorrectPassword();
 
-//describe('Login Validation Tests with negative scenarios', () => {
+    // Click on Login Btn
+    login.clickLogin();
 
-    it('Valid user unsuccessful login', () => {
-        // Visit URL
-        cy.visit(baseUrl);
+    // Check page URL is correct after login
+    cy.contains('Epic sadface: Username and password do not match any user in this service')
+        .should('be.visible');
+});
 
-        // Enter valid username and invalid password 
-        login.enterUsername();
-        login.enterIncorrectPassword();
+it('Verify that lockout out user cannot login with valid credentials', () => {
+    // Visit URL
+    cy.visit(baseUrl);
 
-        // Click on Login Btn
-        login.clickLogin();
+    // Enter valid username and valid password
+    login.enterLockedOutUsername();
+    login.enterPassword();
 
-        // Check page URL is correct after login
-        cy.contains('Epic sadface: Username and password do not match any user in this service')
-            .should('be.visible');
-    });
+    // Click on login btn
+    login.clickLogin();
 
-    it('Verify that lockout out user cannot login with valid credentials', () => {
-        // Visit URL
-        cy.visit(baseUrl);
+    // Check page URL is correct after login
+    cy.contains('Epic sadface: Sorry, this user has been locked out.')
+        .should('be.visible');
+});
 
-        // Enter valid username and valid password
-        login.enterLockedOutUsername();
-        login.enterPassword();
+it('Verify that a valid user user can log-in with the valid credentials, but with long timeout', () => {
 
-        // Click on login btn
-        login.clickLogin();
+    // Visit URL
+    cy.visit(baseUrl);
 
-        // Check page URL is correct after login
-        cy.contains('Epic sadface: Sorry, this user has been locked out.')
-            .should('be.visible');
-    });
+    // Enter valid username and valid password
+    login.enterPerformanceUsername();
+    login.enterPassword();
 
-    it('Verify that a valid user user can log-in with the valid credentials, but with long timeout', () => {
+    // Click on login and impliment timeout after login is clicked
+    login.clickLogin({ timeout: 5000 });
 
-        // Visit URL
-        cy.visit(baseUrl);
+    // Check page URL is correct after login
+    cy.url().should('eq', baseUrl + 'inventory.html');
 
-        // Enter valid username and valid password
-        login.enterPerformanceUsername();
-        login.enterPassword();
+});
 
-        // Click on login and impliment timeout after login is clicked
-        login.clickLogin({ timeout: 5000 });
-
-        // Check page URL is correct after login
-        cy.url().should('eq', baseUrl + 'inventory.html');
-
-    });
-//})
-
-it.skip('Verify that a valid user can login when screen width is less than 1060px', () => {
+it('Verify that a valid user can login when screen width is less than 1060px', () => {
     // Set the viewport width to less than 1060px
     cy.viewport(1024, 768);
 
